@@ -269,7 +269,7 @@ bool Configuration::resetToDefaults()
 {
     EEPROM.put(WIFI_SET_EEPROM_POS, false);
     EEPROM.put(MQTT_SET_EEPROM_POS, false);
-    EEPROM.put(OS_MODE_EEPROM_POS, OSMode::ONBOARDING);
+    EEPROM.put(OS_MODE_EEPROM_POS, OSMode::SPOTIFY);
     EEPROM.commit();
     return true;
 }
@@ -373,16 +373,7 @@ bool Configuration::loadOSConfiguration()
     // boot mode
     EEPROM.get(OS_MODE_EEPROM_POS, os_config.mode);
 
-    if (os_config.mode > OSMode::HASS)
-    {
-        os_config.mode = OSMode::ONBOARDING;
-    }
-
-    if (os_config.mode < 0)
-    {
-        os_config.mode = OSMode::ONBOARDING;
-    }
-
+    os_config.mode = OSMode::SPOTIFY;
     return true;
 }
 

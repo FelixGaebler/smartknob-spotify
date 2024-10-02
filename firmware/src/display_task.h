@@ -14,6 +14,7 @@
 #include "app_config.h"
 
 #include "./apps/demo_apps.h"
+#include "./apps/spotify_app.h"
 
 #include "onboarding_flow/onboarding_flow.h"
 #include "error_handling_flow/error_handling_flow.h"
@@ -36,10 +37,12 @@ public:
     OnboardingFlow *getOnboardingFlow();
     DemoApps *getDemoApps();
     HassApps *getHassApps();
+    SpotifyApp *getSpotifyApp();
 
     void enableOnboarding();
     void enableHass();
     void enableDemo();
+    void enableSpotify();
 
     ErrorHandlingFlow *getErrorHandlingFlow();
 
@@ -52,6 +55,7 @@ private:
     OnboardingFlow *onboarding_flow = nullptr;
     DemoApps *demo_apps = nullptr;
     HassApps *hass_apps = nullptr;
+    SpotifyApp *spotify_app = nullptr;
     ErrorHandlingFlow *error_handling_flow = nullptr;
 
     QueueHandle_t app_state_queue_;

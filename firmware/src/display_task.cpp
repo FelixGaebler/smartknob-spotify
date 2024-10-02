@@ -58,6 +58,15 @@ HassApps *DisplayTask::getHassApps()
     return hass_apps;
 }
 
+SpotifyApp *DisplayTask::getSpotifyApp()
+{
+    while (spotify_app == nullptr)
+    {
+        delay(50);
+    }
+    return spotify_app;
+}
+
 ErrorHandlingFlow *DisplayTask::getErrorHandlingFlow()
 {
     while (error_handling_flow == nullptr)
@@ -81,6 +90,7 @@ void DisplayTask::run()
     onboarding_flow = new OnboardingFlow(mutex_);
     demo_apps = new DemoApps(mutex_);
     hass_apps = new HassApps(mutex_);
+    spotify_app = new SpotifyApp(mutex_);
     error_handling_flow = new ErrorHandlingFlow(mutex_);
     while (display_os_mode == UNSET)
     {
@@ -129,5 +139,12 @@ void DisplayTask::enableHass()
     display_os_mode = HASS;
     hass_apps->render();
     hass_apps->triggerMotorConfigUpdate();
+}
+
+void DisplayTask::enableSpotify()
+{
+    display_os_mode = SPOTIFY;
+    spotify_app->render();
+    spotify_app->triggerMotorConfigUpdate();
 }
 #endif

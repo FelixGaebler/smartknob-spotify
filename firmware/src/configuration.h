@@ -60,12 +60,13 @@ enum OSMode
     ONBOARDING = 0,
     DEMO,
     HASS,
+    SPOTIFY,
     UNSET
 };
 
 struct OSConfiguration
 {
-    OSMode mode = ONBOARDING;
+    OSMode mode = SPOTIFY;
 };
 
 static const SETTINGS_Settings default_settings =
