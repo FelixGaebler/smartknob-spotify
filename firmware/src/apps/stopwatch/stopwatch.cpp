@@ -49,6 +49,7 @@ StopwatchApp::StopwatchApp(SemaphoreHandle_t mutex, char *entitiy_id) : App(mute
     small_icon = x40_timer;
 
     initScreen();
+    setMotorNotifier(motor_notifier);
 }
 
 void StopwatchApp::initScreen()
