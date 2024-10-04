@@ -4,9 +4,6 @@
 #include "util.h"
 #include "esp_heap_caps.h"
 
-#include "apps/light_switch/light_switch.h"
-#include "apps/light_dimmer/light_dimmer.h"
-
 #include "cJSON.h"
 
 #define TFT_HOR_RES 240
