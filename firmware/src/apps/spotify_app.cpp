@@ -1,22 +1,14 @@
 #include "spotify_app.h"
 
-SpotifyApp::SpotifyApp(SemaphoreHandle_t mutex) : screen_mutex_(mutex)
+SpotifyApp::SpotifyApp(SemaphoreHandle_t mutex)
 {
-    app_mutex_ = xSemaphoreCreateMutex();
-
-    StopwatchApp *stopwatch_app = new StopwatchApp(screen_mutex_);
-    apps.clear();
-    apps.insert(std::make_pair(0, stopwatch_app));
-    active_app = apps[0];
+    active_app = std::make_shared<StopwatchApp>(mutex);
     render();
 }
 
 EntityStateUpdate SpotifyApp::update(AppState state)
 {
-    SemaphoreGuard lock(app_mutex_);
-    EntityStateUpdate new_state_update;
-
-    new_state_update = active_app->updateStateFromKnob(state.motor_state);
+    EntityStateUpdate new_state_update = active_app->updateStateFromKnob(state.motor_state);
     active_app->updateStateFromSystem(state);
     return new_state_update;
 }
