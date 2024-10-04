@@ -40,24 +40,6 @@ OnboardingFlow *DisplayTask::getOnboardingFlow()
     return onboarding_flow;
 }
 
-DemoApps *DisplayTask::getDemoApps()
-{
-    while (demo_apps == nullptr)
-    {
-        delay(50);
-    }
-    return demo_apps;
-}
-
-HassApps *DisplayTask::getHassApps()
-{
-    while (hass_apps == nullptr)
-    {
-        delay(50);
-    }
-    return hass_apps;
-}
-
 SpotifyApp *DisplayTask::getSpotifyApp()
 {
     while (spotify_app == nullptr)
@@ -88,8 +70,6 @@ void DisplayTask::run()
     lv_disp_drv_t *disp_drv = lv_skdk_get_disp_drv();
 
     onboarding_flow = new OnboardingFlow(mutex_);
-    demo_apps = new DemoApps(mutex_);
-    hass_apps = new HassApps(mutex_);
     spotify_app = new SpotifyApp(mutex_);
     error_handling_flow = new ErrorHandlingFlow(mutex_);
     while (display_os_mode == UNSET)
@@ -124,21 +104,6 @@ void DisplayTask::enableOnboarding()
     display_os_mode = ONBOARDING;
     onboarding_flow->render();
     onboarding_flow->triggerMotorConfigUpdate();
-}
-
-void DisplayTask::enableDemo()
-{
-    display_os_mode = DEMO;
-    demo_apps->render();
-    demo_apps->triggerMotorConfigUpdate();
-}
-
-void DisplayTask::enableHass()
-{
-    LOGE("enableHass");
-    display_os_mode = HASS;
-    hass_apps->render();
-    hass_apps->triggerMotorConfigUpdate();
 }
 
 void DisplayTask::enableSpotify()

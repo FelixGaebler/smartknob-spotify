@@ -41,22 +41,11 @@ void Apps::setActive(int8_t id)
     render();
 }
 
-App *Apps::loadApp(uint8_t position, std::string app_slug, char *app_id, char *friendly_name, char *entity_id)
-{
-    return nullptr;
-}
-void Apps::updateMenu()
-{
-    {
-        SemaphoreGuard lock(app_mutex_);
-        menu = std::make_shared<MenuApp>(screen_mutex_);
-    }
-}
-
 void Apps::setMotorNotifier(MotorNotifier *motor_notifier)
 {
     this->motor_notifier = motor_notifier;
 }
+
 void Apps::triggerMotorConfigUpdate()
 {
     motor_notifier->requestUpdate(active_app->getMotorConfig());

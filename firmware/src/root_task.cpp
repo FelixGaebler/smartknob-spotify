@@ -173,16 +173,7 @@ void RootTask::run()
                                         switch (os_config->mode)
                                         {
                                         case ONBOARDING:
-                                            LOGI("176");
                                             display_task_->enableOnboarding();
-                                            this->configuration_->saveOSConfiguration(*os_config);
-
-                                            break;
-                                        case DEMO:
-                                            display_task_->enableDemo();
-                                            break;
-                                        case HASS:
-                                            display_task_->enableHass();
                                             this->configuration_->saveOSConfiguration(*os_config);
                                             break;
                                         case SPOTIFY:
@@ -223,10 +214,6 @@ void RootTask::run()
 #endif
 
     display_task_->getErrorHandlingFlow()->setMotorNotifier(&motor_notifier);
-    display_task_->getDemoApps()->setMotorNotifier(&motor_notifier);
-    display_task_->getDemoApps()->setOSConfigNotifier(&os_config_notifier_);
-    display_task_->getHassApps()->setMotorNotifier(&motor_notifier);
-    display_task_->getHassApps()->setOSConfigNotifier(&os_config_notifier_);
     display_task_->getSpotifyApp()->setOSConfigNotifier(&os_config_notifier_);
     display_task_->getSpotifyApp()->setMotorNotifier(&motor_notifier);
 
@@ -238,17 +225,8 @@ void RootTask::run()
     switch (configuration_->getOSConfiguration()->mode)
     {
     case ONBOARDING:
-        LOGI("239");
         os_config_notifier_.setOSMode(ONBOARDING);
         display_task_->enableOnboarding();
-        break;
-    case DEMO:
-        os_config_notifier_.setOSMode(ONBOARDING);
-        display_task_->enableOnboarding();
-        break;
-    case HASS:
-        // os_config_notifier_.setOSMode(HASS);
-        display_task_->enableHass();
         break;
     case SPOTIFY:
         display_task_->enableSpotify();
@@ -312,11 +290,7 @@ void RootTask::run()
                 switch (configuration_->getOSConfiguration()->mode)
                 {
                 case ONBOARDING:
-                    LOGI("313");
                     display_task_->enableOnboarding();
-                    break;
-                case HASS:
-                    display_task_->enableHass();
                     break;
                 case SPOTIFY:
                     display_task_->enableSpotify();
@@ -335,22 +309,12 @@ void RootTask::run()
                     mqtt_task_->getNotifier()->requestConnect(mqtt_config);
                 }
                 break;
-            case SK_MQTT_STATE_UPDATE:
-                display_task_->getHassApps()->handleEvent(wifi_event);
-                break;
             case SK_DISMISS_ERROR:
                 display_task_->getErrorHandlingFlow()->handleEvent(wifi_event);
                 switch (configuration_->getOSConfiguration()->mode)
                 {
                 case ONBOARDING:
-                    LOGI("344");
                     display_task_->enableOnboarding();
-                    break;
-                case DEMO:
-                    display_task_->enableDemo();
-                    break;
-                case HASS:
-                    display_task_->enableHass();
                     break;
                 case SPOTIFY:
                     display_task_->enableSpotify();
@@ -371,17 +335,9 @@ void RootTask::run()
                 switch (configuration_->getOSConfiguration()->mode)
                 {
                 case ONBOARDING:
-                    LOGI("372");
                     display_task_->enableOnboarding();
                     display_task_->getOnboardingFlow()->triggerMotorConfigUpdate();
                     break;
-                case DEMO:
-                    display_task_->enableDemo();
-                    display_task_->getDemoApps()->triggerMotorConfigUpdate();
-                    break;
-                case HASS:
-                    display_task_->enableHass();
-                    display_task_->getHassApps()->triggerMotorConfigUpdate();
                 case SPOTIFY:
                     display_task_->enableSpotify();
                     display_task_->getSpotifyApp()->triggerMotorConfigUpdate();
@@ -465,14 +421,6 @@ void RootTask::run()
         if (xQueueReceive(app_sync_queue_, &apps_, 0) == pdTRUE)
         {
             LOGD("App sync requested!");
-#if SK_MQTT // Should this be here??
-            display_task_->getHassApps()->sync(mqtt_task_->getApps());
-
-            LOGD("Giving 0.5s for Apps to initialize");
-            delay(500);
-            display_task_->getHassApps()->triggerMotorConfigUpdate();
-            mqtt_task_->unlock();
-#endif
         }
 
         if (xQueueReceive(knob_state_queue_, &latest_state_, 0) == pdTRUE)
@@ -506,12 +454,6 @@ void RootTask::run()
                 {
                     entity_state_update_to_send = display_task_->getOnboardingFlow()->update(app_state);
                 }
-                break;
-            case OSMode::DEMO:
-                entity_state_update_to_send = display_task_->getDemoApps()->update(app_state);
-                break;
-            case OSMode::HASS:
-                entity_state_update_to_send = display_task_->getHassApps()->update(app_state);
                 break;
             case OSMode::SPOTIFY:
                 entity_state_update_to_send = display_task_->getSpotifyApp()->update(app_state);
@@ -648,14 +590,8 @@ void RootTask::updateHardware(AppState *app_state)
                     switch (configuration_->getOSConfiguration()->mode)
                     {
                     case ONBOARDING:
-                        LOGI("649");
                         display_task_->getOnboardingFlow()->handleNavigationEvent(event);
                         break;
-                    case DEMO:
-                        display_task_->getDemoApps()->handleNavigationEvent(event);
-                        break;
-                    case HASS:
-                        display_task_->getHassApps()->handleNavigationEvent(event);
                     case SPOTIFY:
                         display_task_->getSpotifyApp()->handleNavigationEvent(event);
                     default:
@@ -685,14 +621,8 @@ void RootTask::updateHardware(AppState *app_state)
                     switch (configuration_->getOSConfiguration()->mode)
                     {
                     case ONBOARDING:
-                        LOGI("686");
                         display_task_->getOnboardingFlow()->handleNavigationEvent(event);
                         break;
-                    case DEMO:
-                        display_task_->getDemoApps()->handleNavigationEvent(event);
-                        break;
-                    case HASS:
-                        display_task_->getHassApps()->handleNavigationEvent(event);
                     case SPOTIFY:
                         display_task_->getSpotifyApp()->handleNavigationEvent(event);
                     default:

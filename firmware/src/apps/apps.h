@@ -29,9 +29,6 @@ public:
     void render();
     void setActive(int8_t id);
 
-    App *loadApp(uint8_t position, std::string app_slug, char *app_id, char *friendly_name, char *entity_id);
-    void updateMenu();
-
     void setMotorNotifier(MotorNotifier *motor_notifier);
     void setOSConfigNotifier(OSConfigNotifier *os_config_notifier);
     void triggerMotorConfigUpdate();

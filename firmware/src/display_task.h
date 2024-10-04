@@ -13,7 +13,6 @@
 #include "task.h"
 #include "app_config.h"
 
-#include "./apps/demo_apps.h"
 #include "./apps/spotify_app.h"
 
 #include "onboarding_flow/onboarding_flow.h"
@@ -35,13 +34,9 @@ public:
 
     void setBrightness(uint16_t brightness);
     OnboardingFlow *getOnboardingFlow();
-    DemoApps *getDemoApps();
-    HassApps *getHassApps();
     SpotifyApp *getSpotifyApp();
 
     void enableOnboarding();
-    void enableHass();
-    void enableDemo();
     void enableSpotify();
 
     ErrorHandlingFlow *getErrorHandlingFlow();
@@ -53,8 +48,6 @@ protected:
 
 private:
     OnboardingFlow *onboarding_flow = nullptr;
-    DemoApps *demo_apps = nullptr;
-    HassApps *hass_apps = nullptr;
     SpotifyApp *spotify_app = nullptr;
     ErrorHandlingFlow *error_handling_flow = nullptr;
 
