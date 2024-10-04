@@ -3,24 +3,12 @@
 SpotifyApp::SpotifyApp(SemaphoreHandle_t mutex) : screen_mutex_(mutex)
 {
     app_mutex_ = xSemaphoreCreateMutex();
-    clear();
 
-    StopwatchApp *stopwatch_app = new StopwatchApp(screen_mutex_, "stopwatch");
-    add(0, stopwatch_app);
+    StopwatchApp *stopwatch_app = new StopwatchApp(screen_mutex_);
+    apps.clear();
+    apps.insert(std::make_pair(0, stopwatch_app));
 
     setActive(0);
-}
-
-void SpotifyApp::add(uint8_t id, App *app)
-{
-    SemaphoreGuard lock(app_mutex_);
-    apps.insert(std::make_pair(id, app));
-}
-
-void SpotifyApp::clear()
-{
-    SemaphoreGuard lock(app_mutex_);
-    apps.clear();
 }
 
 EntityStateUpdate SpotifyApp::update(AppState state)
@@ -41,7 +29,6 @@ void SpotifyApp::render()
 void SpotifyApp::setActive(int8_t id)
 {
     SemaphoreGuard lock(app_mutex_);
-    active_id = id;
     active_app = apps[id];
     render();
 }

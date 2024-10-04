@@ -12,8 +12,6 @@ class SpotifyApp
 public:
     SpotifyApp(SemaphoreHandle_t mutex);
 
-    void add(uint8_t id, App *app);
-    void clear();
     EntityStateUpdate update(AppState state);
     void render();
     void setActive(int8_t id);
@@ -28,7 +26,6 @@ private:
     SemaphoreHandle_t app_mutex_;
     std::map<uint8_t, std::shared_ptr<App>> apps;
 
-    int8_t active_id = 0;
     std::shared_ptr<App> active_app = nullptr;
 
     PB_SmartKnobConfig root_level_motor_config;

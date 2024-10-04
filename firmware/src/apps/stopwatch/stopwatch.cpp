@@ -18,10 +18,9 @@ void stopwatch_timer(lv_timer_t *timer)
     lv_label_set_text_fmt(user_data->ms_label, "%02d", stopwatch_ms);
 }
 
-StopwatchApp::StopwatchApp(SemaphoreHandle_t mutex, char *entitiy_id) : App(mutex)
+StopwatchApp::StopwatchApp(SemaphoreHandle_t mutex) : App(mutex)
 {
     sprintf(app_id, "%s", "stopwatch");
-    sprintf(entitiy_id, "%s", entitiy_id);
     sprintf(friendly_name, "%s", "Stopwatch");
 
     motor_config = PB_SmartKnobConfig{

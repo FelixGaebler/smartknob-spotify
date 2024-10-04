@@ -28,7 +28,7 @@ struct CurrentStopwatchState
 class StopwatchApp : public App
 {
 public:
-    StopwatchApp(SemaphoreHandle_t mutex, char *entitiy_id);
+    StopwatchApp(SemaphoreHandle_t mutex);
     EntityStateUpdate updateStateFromKnob(PB_SmartKnobState state);
     void updateStateFromSystem(AppState state);
     int8_t navigationNext();
