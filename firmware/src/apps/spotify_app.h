@@ -14,10 +14,8 @@ public:
 
     EntityStateUpdate update(AppState state);
     void render();
-    void setActive(int8_t id);
 
     void setMotorNotifier(MotorNotifier *motor_notifier);
-    void setOSConfigNotifier(OSConfigNotifier *os_config_notifier);
     void triggerMotorConfigUpdate();
     void handleNavigationEvent(NavigationEvent event);
 
@@ -30,5 +28,4 @@ private:
 
     PB_SmartKnobConfig root_level_motor_config;
     MotorNotifier *motor_notifier;
-    OSConfigNotifier *os_config_notifier_;
 };

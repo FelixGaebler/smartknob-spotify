@@ -214,7 +214,6 @@ void RootTask::run()
 #endif
 
     display_task_->getErrorHandlingFlow()->setMotorNotifier(&motor_notifier);
-    display_task_->getSpotifyApp()->setOSConfigNotifier(&os_config_notifier_);
     display_task_->getSpotifyApp()->setMotorNotifier(&motor_notifier);
 
     // TODO: move playhaptic to notifier? or other interface to just pass "possible" motor commands not entire object/class.

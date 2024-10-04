@@ -7,8 +7,8 @@ SpotifyApp::SpotifyApp(SemaphoreHandle_t mutex) : screen_mutex_(mutex)
     StopwatchApp *stopwatch_app = new StopwatchApp(screen_mutex_);
     apps.clear();
     apps.insert(std::make_pair(0, stopwatch_app));
-
-    setActive(0);
+    active_app = apps[0];
+    render();
 }
 
 EntityStateUpdate SpotifyApp::update(AppState state)
@@ -26,13 +26,6 @@ void SpotifyApp::render()
     active_app->render();
 }
 
-void SpotifyApp::setActive(int8_t id)
-{
-    SemaphoreGuard lock(app_mutex_);
-    active_app = apps[id];
-    render();
-}
-
 void SpotifyApp::setMotorNotifier(MotorNotifier *motor_notifier)
 {
     this->motor_notifier = motor_notifier;
@@ -45,11 +38,5 @@ void SpotifyApp::triggerMotorConfigUpdate()
 
 void SpotifyApp::handleNavigationEvent(NavigationEvent event)
 {
-    setActive(0);
     motor_notifier->requestUpdate(active_app->getMotorConfig());
-}
-
-void SpotifyApp::setOSConfigNotifier(OSConfigNotifier *os_config_notifier)
-{
-    os_config_notifier_ = os_config_notifier;
 }
