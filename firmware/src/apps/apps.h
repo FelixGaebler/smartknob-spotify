@@ -14,8 +14,6 @@
 #include "apps/blinds/blinds.h"
 #include "apps/climate/climate.h"
 
-#include "app_menu.h"
-
 class Apps
 {
 
@@ -55,7 +53,6 @@ protected:
     SemaphoreHandle_t screen_mutex_;
     SemaphoreHandle_t app_mutex_;
     std::map<uint8_t, std::shared_ptr<App>> apps;
-    std::shared_ptr<Menu> menu = nullptr;
 
     int8_t active_id = 0;
 
