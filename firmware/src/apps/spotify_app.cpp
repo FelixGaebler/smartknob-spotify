@@ -105,12 +105,14 @@ void SpotifyApp::initScreen()
 
     current_stopwatch_state.start_stop_indicator = lv_bar_create(screen);
     lv_obj_t *start_stop_indicator = current_stopwatch_state.start_stop_indicator;
-    lv_obj_set_size(start_stop_indicator, 240, 260);
+    lv_obj_set_size(start_stop_indicator, 260, 240);
     lv_obj_set_style_bg_opa(start_stop_indicator, LV_OPA_TRANSP, LV_PART_MAIN);
     lv_obj_set_style_bg_color(start_stop_indicator, LV_COLOR_MAKE(0x00, 0x00, 0x00), LV_PART_INDICATOR);
     lv_obj_set_style_radius(start_stop_indicator, 0, LV_PART_MAIN);
     lv_obj_set_style_radius(start_stop_indicator, 0, LV_PART_INDICATOR);
-    lv_obj_center(start_stop_indicator);
+    lv_obj_set_pos(start_stop_indicator, -10, 0);
+    lv_bar_set_range(start_stop_indicator, -100, 100);
+
     lv_bar_set_value(start_stop_indicator, 0, LV_ANIM_OFF);
 
     current_stopwatch_state.start_stop_label = lv_label_create(screen);
@@ -186,7 +188,15 @@ EntityStateUpdate SpotifyApp::updateStateFromKnob(PB_SmartKnobState state)
         if (sub_position_unit <= 1.5 && sub_position_unit >= -1.5)
         {
             SemaphoreGuard lock(mutex_);
-            lv_bar_set_value(start_stop_indicator, abs(sub_position_unit) / 1.5 * 25, LV_ANIM_OFF);
+            lv_bar_set_value(start_stop_indicator, sub_position_unit / 1.5 * 100, LV_ANIM_OFF);
+
+            char buffer[50];
+
+            sprintf(buffer, "VALUE0 %.2f", sub_position_unit);
+            LOGI(buffer);
+
+            sprintf(buffer, "VALUE1 %.2f", sub_position_unit / 1.5 * 100);
+            LOGI(buffer);
         }
     }
 
